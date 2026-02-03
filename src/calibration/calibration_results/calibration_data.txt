@@ -1,0 +1,13 @@
+CAMERA CALIBRATION RESULTS
+
+RMS Re-projection Error: 2.0909977644407105
+Mean Re-projection Error: 0.2746836513319873
+Images used: 9
+
+Camera Matrix:
+[[3.09410917e+03, 0.00000000e+00, 1.53771905e+03],
+ [0.00000000e+00, 3.09511692e+03, 2.06135763e+03],
+ [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]]
+
+Distortion coefficients:
+[[ 0.11900653, -0.39597455,  0.00583142,  0.00330301,  0.        ]]
