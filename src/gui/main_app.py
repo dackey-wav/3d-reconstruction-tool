@@ -123,18 +123,8 @@ class MainWindow(QMainWindow):
         self.spin_max_images.setValue(50)
         self.spin_max_images.setSpecialValueText("All")
         row1.addWidget(self.spin_max_images)
-        
-        row1.addSpacing(20)
-        self.cb_bundle_adjustment = QCheckBox("Bundle Adjustment")
-        self.cb_bundle_adjustment.setChecked(True)
-        row1.addWidget(self.cb_bundle_adjustment)
-        
-        row1.addSpacing(20)
-        self.cb_filter = QCheckBox("Point Cloud Filtering")
-        self.cb_filter.setChecked(True)
-        row1.addWidget(self.cb_filter)
-        
         row1.addStretch()
+
         custom_layout.addLayout(row1)
         
         # Row 2: Advanced options
@@ -187,7 +177,7 @@ class MainWindow(QMainWindow):
     def _on_method_changed(self):
         """Show/hide options based on selected method"""
         method = self.combo_method.currentData()
-        
+
         is_colmap = method.startswith("colmap")
         self.colmap_options.setVisible(is_colmap)
         self.custom_options.setVisible(not is_colmap)
@@ -213,7 +203,7 @@ class MainWindow(QMainWindow):
         dataset = self.combo_dataset.currentData()
         method = self.combo_method.currentData()
         method_name = self.combo_method.currentText()
-        
+
         if not dataset:
             return
 
@@ -222,22 +212,18 @@ class MainWindow(QMainWindow):
             'dataset': dataset,
             'method': method,
         }
-        
+
         if method.startswith("colmap"):
             options['quality'] = self.combo_colmap_quality.currentData()
             options['use_gpu'] = self.cb_colmap_gpu.isChecked()
             options['sparse_only'] = (method == "colmap_sparse")
         else:
-            options['max_images'] = self.spin_max_images.value() if self.spin_max_images.value() > 5 else None
-            options['use_ba'] = self.cb_bundle_adjustment.isChecked()
-            options['filter'] = self.cb_filter.isChecked()
-            options['full_match'] = self.cb_full_match.isChecked()
-            options['check_quality'] = self.cb_check_quality.isChecked()
-            
-            # Parse method for neural/stereo/mvs flags
+            max_val = self.spin_max_images.value()
+            options['max_images'] = max_val if max_val > 5 else None
             options['neural'] = 'neural' in method
             options['stereo'] = 'stereo' in method
             options['mvs'] = 'mvs' in method
+            options['dense'] = 'sift' in method and 'sparse' not in method and 'stereo' not in method and 'mvs' not in method
 
         # UI Updates
         self.btn_run.setEnabled(False)
@@ -252,10 +238,10 @@ class MainWindow(QMainWindow):
                 font-weight: bold;
             }
         """)
-        
+
         self.progress_bar.setRange(0, 0)  # Indeterminate
         self.label_status.setText(f"Running: {method_name}...")
-        
+
         # Run
         self.worker.run_reconstruction(options)
 

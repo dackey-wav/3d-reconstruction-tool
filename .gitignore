@@ -8,8 +8,6 @@ chick/
 monsters/
 room/
 vans/
-
-*.ply
 *.bin
 *.mp4
 *.avi
@@ -18,3 +16,15 @@ data/samples/**/*.jpeg
 data/samples/**/*.png
 results/
 outputs/
+
+**/colmap_reconstruction/database.db
+**/colmap_reconstruction/dense/stereo/
+**/colmap_reconstruction/dense/run-colmap-*.sh
+**/colmap_reconstruction/dense/images/
+**/colmap_reconstruction/sparse/*/project.ini
+**/colmap_reconstruction/images/
+
+!docs/
+!docs/**
+
+!data/samples/**/colmap_reconstruction/**/*.ply
