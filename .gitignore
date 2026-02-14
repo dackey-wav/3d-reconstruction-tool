@@ -4,27 +4,28 @@ __pycache__/
 *.exe
 venv/
 .vscode/
-chick/
-monsters/
-room/
-vans/
 *.bin
 *.mp4
 *.avi
+objects.txt
+
+# Input images
 data/samples/**/*.jpg
 data/samples/**/*.jpeg
 data/samples/**/*.png
-results/
-outputs/
+data/samples/**/*.JPG
 
-**/colmap_reconstruction/database.db
+# ALL reconstruction outputs
+*.ply
+*.ply.vis
+**/database.db
 **/colmap_reconstruction/dense/stereo/
 **/colmap_reconstruction/dense/run-colmap-*.sh
 **/colmap_reconstruction/dense/images/
-**/colmap_reconstruction/sparse/*/project.ini
 **/colmap_reconstruction/images/
+**/colmap_reconstruction/sparse/*/project.ini
+**/reconstruction/
 
+# Keep docs
 !docs/
 !docs/**
-
-!data/samples/**/colmap_reconstruction/**/*.ply
