@@ -29,7 +29,7 @@ A PyQt5-based desktop application that reconstructs 3D point cloud models from o
     <td align="center"><img src="docs/images/kitchen_dense.png" width="250"><br><sub>Dense point cloud</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/images/room_input.JPG" width="250"><br><sub>Input photos (kitchen)</sub></td>
+    <td align="center"><img src="docs/images/room_input.JPG" width="250"><br><sub>Input photos (room)</sub></td>
     <td align="center"><img src="docs/images/room_sparse.png" width="250"><br><sub>Sparse reconstruction</sub></td>
     <td align="center"><img src="docs/images/room_dense.png" width="250"><br><sub>Dense point cloud</sub></td>
   </tr>

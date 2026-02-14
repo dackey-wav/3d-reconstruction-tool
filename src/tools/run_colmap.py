@@ -41,12 +41,35 @@ def run_colmap_reconstruction(image_dir: str, output_dir: str,
         print("COLMAP NOT FOUND! Download from: https://github.com/colmap/colmap/releases")
         return False
     
+    # Quality presets
+    quality_settings = {
+        'low': {
+            'max_image_size': 1000,
+            'max_num_features': 4096,
+            'SiftExtraction.num_threads': 4,
+        },
+        'medium': {
+            'max_image_size': 1600,
+            'max_num_features': 8192,
+            'SiftExtraction.num_threads': -1,
+        },
+        'high': {
+            'max_image_size': 3200,
+            'max_num_features': 16384,
+            'SiftExtraction.num_threads': -1,
+        },
+    }
+    
+    settings = quality_settings.get(quality, quality_settings['medium'])
+    
     print("=" * 60)
     print("COLMAP RECONSTRUCTION")
     print("=" * 60)
     print(f"COLMAP: {colmap}")
     print(f"Images: {image_dir}")
     print(f"Output: {output_dir}")
+    print(f"Quality: {quality}")
+    print(f"GPU: {use_gpu}")
     print()
     
     output_path = Path(output_dir)
@@ -85,20 +108,27 @@ def run_colmap_reconstruction(image_dir: str, output_dir: str,
     try:
         # Step 1: Feature extraction
         print("\n[1/5] Extracting features...")
-        subprocess.run([
+        feature_cmd = [
             colmap, "feature_extractor",
             "--database_path", str(database_path),
             "--image_path", str(clean_images_path),
             "--ImageReader.single_camera", "1",
             "--ImageReader.camera_model", "SIMPLE_RADIAL",
-        ], check=True)
+            "--SiftExtraction.max_num_features", str(settings['max_num_features']),
+        ]
+        if not use_gpu:
+            feature_cmd.extend(["--SiftExtraction.use_gpu", "0"])
+        subprocess.run(feature_cmd, check=True)
         
         # Step 2: Feature matching
         print("\n[2/5] Matching features...")
-        subprocess.run([
+        match_cmd = [
             colmap, "exhaustive_matcher",
             "--database_path", str(database_path),
-        ], check=True)
+        ]
+        if not use_gpu:
+            match_cmd.extend(["--SiftMatching.use_gpu", "0"])
+        subprocess.run(match_cmd, check=True)
         
         # Step 3: Sparse reconstruction
         print("\n[3/5] Sparse reconstruction...")
@@ -151,7 +181,7 @@ def run_colmap_reconstruction(image_dir: str, output_dir: str,
             "--input_path", str(sparse_model),
             "--output_path", str(dense_path),
             "--output_type", "COLMAP",
-            "--max_image_size", "1600",
+            "--max_image_size", str(settings['max_image_size']),
         ], check=True)
         
         # Patch match stereo

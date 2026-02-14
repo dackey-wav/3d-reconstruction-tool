@@ -161,7 +161,7 @@ def main():
         elif args.dense:
             # Dense SIFT matching - slow CPU method
             print("\nWarning: --dense uses slow CPU matching. Consider --mvs instead.")
-            from core.dense_reconstruction import DenseReconstructor
+            from core.dense import DenseReconstructor
             dense_recon = DenseReconstructor(camera)
             dense_points, dense_colors = dense_recon.reconstruct(
                 pipeline.images, pose_dict, window=8

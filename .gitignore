@@ -16,16 +16,23 @@ data/samples/**/*.png
 data/samples/**/*.JPG
 
 # ALL reconstruction outputs
-*.ply
 *.ply.vis
 **/database.db
 **/colmap_reconstruction/dense/stereo/
 **/colmap_reconstruction/dense/run-colmap-*.sh
 **/colmap_reconstruction/dense/images/
+**/colmap_reconstruction/dense/sparse/
 **/colmap_reconstruction/images/
 **/colmap_reconstruction/sparse/*/project.ini
 **/reconstruction/
 
-# Keep docs
+*.ply
+!data/samples/squirrel/colmap_reconstruction/*.ply
+!data/samples/kitchen/colmap_reconstruction/*.ply
+!data/samples/room/colmap_reconstruction/*.ply
+!data/samples/squirrel/colmap_reconstruction/**/*.ply
+!data/samples/kitchen/colmap_reconstruction/**/*.ply
+!data/samples/room/colmap_reconstruction/**/*.ply
+
 !docs/
 !docs/**
